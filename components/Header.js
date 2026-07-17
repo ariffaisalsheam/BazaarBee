@@ -24,7 +24,7 @@ export default function Header() {
     <header className="site-header">
       <div className="container header-inner">
         <Link href="/" className="brand-lockup" aria-label="BazaarBee home">
-          <Image src="/mascot.jpg" alt="" width={42} height={42} className="brand-logo" style={{ borderRadius: '50%', objectFit: 'cover' }} />
+          <Image src="/android-chrome-192x192.png" alt="" width={42} height={42} className="brand-logo" style={{ borderRadius: '50%', objectFit: 'cover' }} />
           <span>Bazaar<span>Bee</span></span>
         </Link>
 
