@@ -1,6 +1,8 @@
 import { useCart } from '../../hooks/useCart';
 import { useLanguage } from '../../hooks/useLanguage';
 import Link from 'next/link';
+import Image from 'next/image';
+import { getOptimizedImageUrl } from '../../lib/appwrite';
 
 export default function CartDrawer({ onClose }) {
   const {
@@ -56,19 +58,22 @@ export default function CartDrawer({ onClose }) {
                   borderBottom: '1px dashed var(--border-grey)',
                   alignItems: 'center'
                 }}>
-                  {/* Product Emoji / Fallback */}
+                  {/* Product Image */}
                   <div style={{
+                    position: 'relative',
                     width: '45px',
                     height: '45px',
                     backgroundColor: '#F3F4F6',
                     borderRadius: 'var(--radius-sm)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '20px',
+                    overflow: 'hidden',
                     flexShrink: 0
                   }}>
-                    🛒
+                    <Image
+                      src={getOptimizedImageUrl('products', item.imageFileId)}
+                      alt={itemTitle}
+                      fill
+                      style={{ objectFit: 'contain', padding: '2px' }}
+                    />
                   </div>
 
                   <div style={{ flexGrow: 1 }}>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useCart } from '../../hooks/useCart';
 import { useLanguage } from '../../hooks/useLanguage';
+import { getOptimizedImageUrl } from '../../lib/appwrite';
 
 export default function ProductCard({ product }) {
   const { addItem } = useCart();
@@ -72,7 +73,7 @@ export default function ProductCard({ product }) {
         overflow: 'hidden'
       }}>
         <Image
-          src="/mockup.png"
+          src={getOptimizedImageUrl('products', selectedVariant.imageFileId || product.imageFileId)}
           alt={productTitle}
           fill
           style={{ objectFit: 'contain', padding: '10px' }}
