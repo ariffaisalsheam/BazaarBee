@@ -10,14 +10,7 @@ import {
   OrderIcon
 } from '../../components/Icons';
 
-export const CATEGORIES = [
-  { name: 'Grocery', slug: 'rice', icon: <RiceIcon size={24} /> },
-  { name: 'Personal Care', slug: 'personal-care', icon: <PersonalCareIcon size={24} /> },
-  { name: 'Home Care', slug: 'home-care', icon: <HomeCareIcon size={24} /> },
-  { name: 'Baby Care', slug: 'baby-care', icon: <BabyCareIcon size={24} /> },
-  { name: 'Snacks & Drinks', slug: 'beverages', icon: <BeveragesIcon size={24} /> },
-  { name: 'More', slug: 'all', icon: <OrderIcon size={24} /> }
-];
+import { CATEGORIES } from './constants';
 
 export default function CategoryMenu() {
   return (
