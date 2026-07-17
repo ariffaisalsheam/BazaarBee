@@ -166,7 +166,7 @@ export default function CheckoutForm() {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '30px', margin: '30px 0' }} className="grid-cols-2">
+    <div className="checkout-layout">
 
       {/* Checkout Form Card */}
       <div className="card checkout-form-card">
@@ -274,8 +274,8 @@ export default function CheckoutForm() {
       </div>
 
       {/* Cart Summary Side Column */}
-      <div>
-        <div className="card" style={{ position: 'sticky', top: '20px' }}>
+      <div className="checkout-summary">
+        <div className="card checkout-summary-card">
           <h3 style={{ fontSize: '18px', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <CartIcon size={20} /> {t('orderSummary')}
           </h3>
@@ -328,7 +328,7 @@ export default function CheckoutForm() {
           alignItems: 'center', justifyContent: 'center', zIndex: 100,
           backdropFilter: 'blur(5px)'
         }}>
-          <div className="card" style={{ width: '400px', padding: '30px', textAlign: 'center', position: 'relative' }}>
+          <div className="card otp-modal-card" style={{ textAlign: 'center', position: 'relative' }}>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '15px', color: 'var(--honey-amber)' }}>
               <PhoneIcon size={40} />
             </div>

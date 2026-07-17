@@ -11,6 +11,13 @@ export const metadata = {
   manifest: '/site.webmanifest',
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -18,7 +25,7 @@ export default function RootLayout({ children }) {
         <LanguageProvider>
           <CartProvider>
             <Header />
-            <main style={{ padding: '20px 0' }}>
+            <main className="site-main">
               {children}
             </main>
           </CartProvider>
