@@ -6,12 +6,12 @@ import CategoryMenu from '../features/categories/CategoryMenu';
 import ProductCard from '../features/products/ProductCard';
 
 const products = [
-  ['ACI Pure Soyabean Oil', 'ACI', 'oil', 'aci_oil', '1 Litre Bottle', 175, 185],
-  ['Teer Refined Sugar', 'Teer', 'sugar', 'teer_sugar', '1 Kg Pack', 135, 140],
-  ['Rashid Miniket Rice', 'Rashid', 'rice', 'miniket_rice', '5 Kg Bag', 360, 380],
-  ['Radhuni Premium Lentils', 'Radhuni', 'lentils', 'radhuni_lentils', '1 Kg Pack', 155, 165],
-  ['Fresh Maida', 'Fresh', 'flour', 'fresh_flour', '1 Kg Pack', 70, 75],
-  ['Ispahani Mirzapore Tea', 'Ispahani', 'tea', 'mirzapore_tea', '200g Pack', 105, 110],
+  ['ACI Pure Soyabean Oil', 'ACI', 'oil', 'img_aci_oil', '1 Litre Bottle', 175, 185],
+  ['Teer Refined Sugar', 'Teer', 'sugar', 'img_teer_sugar', '1 Kg Pack', 135, 140],
+  ['Rashid Miniket Rice', 'Rashid', 'rice', 'img_miniket_rice', '5 Kg Bag', 360, 380],
+  ['Radhuni Premium Lentils', 'Radhuni', 'lentils', 'img_radhuni_lentils', '1 Kg Pack', 155, 165],
+  ['Fresh Maida', 'Fresh', 'flour', 'img_fresh_flour', '1 Kg Pack', 70, 75],
+  ['Ispahani Mirzapore Tea', 'Ispahani', 'tea', 'img_ispahani_tea', '200g Pack', 105, 110],
 ].map(([name, brandName, categorySlug, imageFileId, variantName, sellingPrice, mrp], index) => ({ $id: `product-${index}`, name, brandName, categorySlug, imageFileId, variants: [{ name: variantName, sku: `SKU-${index}`, sellingPrice, mrp, stock: 30, weight: variantName.includes('5') ? 5 : 1, unit: 'Kg' }] }));
 
 export default function Home() {

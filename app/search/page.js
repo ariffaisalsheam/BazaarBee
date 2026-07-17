@@ -15,6 +15,7 @@ const ALL_PRODUCTS = [
     banglaName: 'এসিআই পিওর সয়াবিন তেল',
     brandName: 'ACI',
     categorySlug: 'oil',
+    imageFileId: 'img_aci_oil',
     tags: ['oil', 'cooking', 'soyabean', 'সয়াবিন', 'তেল'],
     variants: [
       { name: '1 Litre Bottle', sku: 'ACI-OIL-1L', mrp: 185, sellingPrice: 175, stock: 50, weight: 1, unit: 'Litre' },
@@ -28,6 +29,7 @@ const ALL_PRODUCTS = [
     banglaName: 'তীর রিফাইনড চিনি',
     brandName: 'Teer',
     categorySlug: 'sugar',
+    imageFileId: 'img_teer_sugar',
     tags: ['sugar', 'sweetener', 'চিনি'],
     variants: [
       { name: '1 Kg Pack', sku: 'TEER-SUGAR-1KG', mrp: 140, sellingPrice: 135, stock: 100, weight: 1, unit: 'Kg' },
@@ -40,6 +42,7 @@ const ALL_PRODUCTS = [
     banglaName: 'রশিদ মিনিকেট চাল (প্রিমিয়াম)',
     brandName: 'Rashid',
     categorySlug: 'rice',
+    imageFileId: 'img_miniket_rice',
     tags: ['rice', 'chal', 'চাল'],
     variants: [
       { name: '5 Kg Bag', sku: 'RASHID-RICE-5KG', mrp: 380, sellingPrice: 360, stock: 80, weight: 5, unit: 'Kg' },
@@ -52,6 +55,7 @@ const ALL_PRODUCTS = [
     banglaName: 'রাধুনী প্রিমিয়াম মসুর ডাল',
     brandName: 'Radhuni',
     categorySlug: 'lentils',
+    imageFileId: 'img_radhuni_lentils',
     tags: ['lentils', 'dal', 'ডাল'],
     variants: [
       { name: '500g Pack', sku: 'RADHUNI-LENTILS-500G', mrp: 85, sellingPrice: 80, stock: 120, weight: 500, unit: 'g' },
@@ -64,6 +68,7 @@ const ALL_PRODUCTS = [
     banglaName: 'ফ্রেশ প্রিমিয়াম ময়দা',
     brandName: 'Fresh',
     categorySlug: 'flour',
+    imageFileId: 'img_fresh_flour',
     tags: ['flour', 'maida', 'আটা', 'ময়দা'],
     variants: [
       { name: '1 Kg Pack', sku: 'FRESH-FLOUR-1KG', mrp: 75, sellingPrice: 70, stock: 150, weight: 1, unit: 'Kg' },
@@ -76,6 +81,7 @@ const ALL_PRODUCTS = [
     banglaName: 'ইস্পাহানি মির্জাপুর চা',
     brandName: 'Ispahani',
     categorySlug: 'tea',
+    imageFileId: 'img_ispahani_tea',
     tags: ['tea', 'cha', 'চা'],
     variants: [
       { name: '200g Pack', sku: 'ISPAHANI-TEA-200G', mrp: 110, sellingPrice: 105, stock: 90, weight: 200, unit: 'g' }
