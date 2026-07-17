@@ -15,13 +15,30 @@ async function reverseGeocode(lat, lng) {
     const data = await res.json();
     if (data && data.address) {
       const a = data.address;
-      const area = a.neighbourhood || a.suburb || a.quarter || a.village || a.hamlet || '';
-      const road = a.road || '';
-      const main = area || road || a.city_district || a.town || a.city || 'Rangpur';
+      // Priority: neighbourhood → suburb → quarter → residential → village → hamlet → road
+      const area =
+        a.neighbourhood ||
+        a.suburb ||
+        a.quarter ||
+        a.residential ||
+        a.allotments ||
+        a.village ||
+        a.hamlet ||
+        '';
+      const road = a.road || a.pedestrian || a.footway || a.path || '';
+
+      // Strip administrative suffixes: "Rangpur Metropolitan City" → "Rangpur"
+      const cityRaw = a.city || a.town || a.municipality || '';
+      const city = cityRaw
+        .replace(/\s*Metropolitan City\s*/gi, '')
+        .replace(/\s*City Corporation\s*/gi, '')
+        .trim() || 'Rangpur';
+
+      const main = area || road || a.city_district || city;
       const subParts = [
-        road && area ? road : '',
+        area && road ? road : '',
         a.city_district || '',
-        a.city || a.town || 'Rangpur',
+        city,
         a.postcode || ''
       ].filter(Boolean);
       const sub = subParts.join(', ');

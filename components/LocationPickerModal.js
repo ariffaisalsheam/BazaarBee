@@ -24,14 +24,34 @@ async function reverseGeocode(lat, lng, lang = 'en') {
     const data = await res.json();
     if (data && data.address) {
       const a = data.address;
-      // Priority: neighbourhood (Sardarpara, Dhap, Hazipara) → suburb → village → road → city
-      const area = a.neighbourhood || a.suburb || a.quarter || a.village || a.hamlet || '';
-      const road = a.road || '';
-      const main = area || road || a.city_district || a.town || a.city || 'Rangpur';
+      // Priority: neighbourhood (Sardarpara, Dhap, Hazipara) → suburb → quarter
+      // → residential → village → hamlet → road (if nothing named is found)
+      const area =
+        a.neighbourhood ||
+        a.suburb ||
+        a.quarter ||
+        a.residential ||
+        a.allotments ||
+        a.village ||
+        a.hamlet ||
+        '';
+      const road = a.road || a.pedestrian || a.footway || a.path || '';
+
+      // Strip administrative suffixes for cleaner display
+      // e.g. "Rangpur Metropolitan City" → "Rangpur"
+      const cityRaw = a.city || a.town || a.municipality || '';
+      const city = cityRaw
+        .replace(/\s*Metropolitan City\s*/gi, '')
+        .replace(/\s*City Corporation\s*/gi, '')
+        .trim() || 'Rangpur';
+
+      // Use road as main label when no named neighbourhood/area exists
+      const main = area || road || a.city_district || city;
+
       const subParts = [
-        road && area ? road : '',  // show road only if area is also available
+        area && road ? road : '', // show road alongside area when both exist
         a.city_district || '',
-        a.city || a.town || 'Rangpur',
+        city,
         a.postcode || ''
       ].filter(Boolean);
       const sub = subParts.join(', ');
@@ -50,15 +70,18 @@ export default function LocationPickerModal({ isOpen, onClose, onConfirm, initia
   const [isGeocoding, setIsGeocoding] = useState(false);
   const [gpsLoading, setGpsLoading] = useState(false);
   const [address, setAddress] = useState({ main: '', sub: '', full: '' });
+  // User-editable area note (Para / Moholla / Building) — industry-standard fallback
+  const [areaNote, setAreaNote] = useState('');
   const [centerCoords, setCenterCoords] = useState(
     initialCoords || { lat: 25.7439, lng: 89.2752 } // Rangpur City center
   );
   const mapRef = useRef(null);
   const geocodeRef = useRef(null);
 
-  // Load Leaflet CDN
+  // Load Leaflet CDN + reset area note on open
   useEffect(() => {
     if (!isOpen) return;
+    setAreaNote(''); // reset on each open so previous entry doesn't carry over
     if (typeof window === 'undefined') return;
     if (window.L) { setMapReady(true); return; }
 
@@ -79,6 +102,13 @@ export default function LocationPickerModal({ isOpen, onClose, onConfirm, initia
       setIsGeocoding(true);
       const result = await reverseGeocode(lat, lng, language);
       setAddress(result);
+      // Auto-fill area note only if geocoding found something specific
+      // (i.e. not just a generic city fallback) and user hasn't typed anything yet
+      setAreaNote(prev =>
+        prev === '' && result.main && result.main !== 'Rangpur'
+          ? result.main
+          : prev
+      );
       setIsGeocoding(false);
     }, 600);
   }, [language]);
@@ -156,10 +186,22 @@ export default function LocationPickerModal({ isOpen, onClose, onConfirm, initia
 
   // Confirm handler
   const handleConfirm = () => {
+    const trimmedNote = areaNote.trim();
+    // Build the best possible address:
+    // If user typed an area note, use it as the main address label
+    // Otherwise fall back to whatever geocoding found
+    const finalMain = trimmedNote || address.main || 'Rangpur';
+    // Sub: geocoded road/city info (exclude main if same as areaNote to avoid duplication)
+    const geocodedSub = address.sub || 'Rangpur';
+    const finalSub = trimmedNote
+      ? [trimmedNote !== address.main ? address.main : '', geocodedSub]
+          .filter(Boolean)
+          .join(', ')
+      : geocodedSub;
     onConfirm({
-      address: address.main || 'Rangpur',
-      fullAddress: address.full || 'Rangpur, Bangladesh',
-      subAddress: address.sub || 'Rangpur City',
+      address: finalMain,
+      fullAddress: trimmedNote ? `${trimmedNote}, ${geocodedSub}` : (address.full || 'Rangpur, Bangladesh'),
+      subAddress: finalSub,
       coords: centerCoords
     });
     onClose();
@@ -222,10 +264,30 @@ export default function LocationPickerModal({ isOpen, onClose, onConfirm, initia
             </div>
           </div>
 
+          {/* Editable area note — Foodpanda/Pathao style manual area input */}
+          <div className="loc-area-input-wrap">
+            <input
+              id="loc-area-note"
+              className="loc-area-input"
+              type="text"
+              value={areaNote}
+              onChange={e => setAreaNote(e.target.value)}
+              placeholder={
+                language === 'BN'
+                  ? 'পাড়া / মহল্লা / বিল্ডিং লিখুন (যেমন: সরদারপাড়া)'
+                  : 'Para / Area / Building (e.g. Sardarpara)'
+              }
+              maxLength={80}
+            />
+            <label htmlFor="loc-area-note" className="loc-area-label">
+              {language === 'BN' ? 'নির্দিষ্ট এলাকা (ঐচ্ছিক)' : 'Specific area (optional)'}
+            </label>
+          </div>
+
           <button
             className="loc-confirm-btn"
             onClick={handleConfirm}
-            disabled={isGeocoding || !address.main}
+            disabled={isGeocoding || (!address.main && !areaNote.trim())}
           >
             <CheckIcon size={18} />
             {language === 'BN' ? 'এই লোকেশন নিশ্চিত করুন' : 'Confirm this location'}

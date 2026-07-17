@@ -241,6 +241,42 @@
   animation: spin 0.7s linear infinite;
 }
 
+/* ── Area Note Input (Foodpanda/Pathao-style manual area field) ── */
+.loc-area-input-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+.loc-area-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #f57c00;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.loc-area-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 14px;
+  border: 1.5px solid #ffe0b2;
+  border-radius: 10px;
+  background: #fffbf5;
+  font-size: 14px;
+  color: #1a1a1a;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.loc-area-input::placeholder {
+  color: #bdbdbd;
+}
+.loc-area-input:focus {
+  border-color: #ff9800;
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.15);
+  background: #fff;
+}
+
 /* ── Confirm Button ── */
 .loc-confirm-btn {
   width: 100%;
